@@ -1,85 +1,49 @@
 <template>
-  <n-card content-style="padding: 0;">
-    <n-tabs
-      type="line"
-      size="large"
-      :tabs-padding="20"
 
+  <n-card>
+    <n-tabs
+      class="card-tabs"
+      default-value="signin"
+      size="large"
+      animated
+      pane-wrapper-style="margin: 0 -4px"
+      pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;"
     >
-      <!-- Connexion Tab -->
-      <n-tab-pane name="Connexion">
-        <div class="form-group">
-          <p>Email</p>
-          <n-input
-            v-model="email"
-            placeholder="Entrez votre email"
-            type="email"
-          />
-        </div>
-        <div class="form-group">
-          <p>Mot de passe</p>
-          <n-input
-            v-model="password"
-            placeholder="Entrez votre mot de passe"
-            type="password"
-          />
-        </div>
-        <n-space justify="center">
-          <n-button type="primary">Se connecter</n-button>
-        </n-space>
+      <n-tab-pane name="signin" tab="Connexion">
+        <n-form>
+          <n-form-item-row label="Email">
+            <n-input />
+          </n-form-item-row>
+          <n-form-item-row label="Mot de passe">
+            <n-input />
+          </n-form-item-row>
+        </n-form>
+        <n-button type="primary" block secondary strong>
+          Connexion
+        </n-button>
       </n-tab-pane>
-      
-      <!-- Inscription Tab -->
-      <n-tab-pane name="Inscription">
-        <div class="form-group">
-          <p>Email</p>
-          <n-input
-            v-model="email"
-            placeholder="Entrez votre email"
-            type="email"
-          />
-        </div>
-        <div class="form-group">
-          <p>Mot de passe</p>
-          <n-input
-            v-model="password"
-            placeholder="Entrez votre mot de passe"
-            type="password"
-          />
-        </div>
-        <div class="form-group">
-          <p>Confirmer le mot de passe</p>
-          <n-input
-            v-model="password"
-            placeholder="Confirmez votre mot de passe"
-            type="password"
-          />
-        </div>
-        <n-space justify="center">
-          <n-button type="primary">S'inscrire</n-button>
-        </n-space>
+      <n-tab-pane name="signup" tab="Inscription">
+        <n-form>
+          <n-form-item-row label="Email">
+            <n-input />
+          </n-form-item-row>
+          <n-form-item-row label="Mot de passe">
+            <n-input />
+          </n-form-item-row>
+          <n-form-item-row label="Confirmer votre  mot de passe">
+            <n-input />
+          </n-form-item-row>
+        </n-form>
+        <n-button type="primary" block secondary strong>
+          Inscription
+        </n-button>
       </n-tab-pane>
     </n-tabs>
   </n-card>
 </template>
 
-<script setup>
-  import { ref } from 'vue';
-
-  const email = ref("");
-  const password = ref("");
-</script>
-
 <style scoped>
-  .form-group {
-    margin-bottom: 20px;
-  }
-
-  .n-input {
-    width: 100%;
-  }
-
-  .n-button {
-    width: 100%;
-  }
+.card-tabs .n-tabs-nav--bar-type {
+  padding-left: 4px;
+}
 </style>
