@@ -1,11 +1,24 @@
 <template>
-  Complete this template
+  <n-card title="Card with Cover">
+    <template #cover>
+      <img src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg">
+    </template>
+    Card Content
+  </n-card>
 </template>
 
-<script lang="ts" setup>
+<style scoped>
+.n-card {
+  max-width: 300px;
+}
+</style>
+
+
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+
+const getPokemonId
+
 
 </script>
-
-<style scoped>
-
-</style>
