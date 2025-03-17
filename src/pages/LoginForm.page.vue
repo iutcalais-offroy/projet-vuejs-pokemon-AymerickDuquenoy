@@ -18,7 +18,6 @@
             <n-input type="password" v-model:value="password" />
           </n-form-item-row>
         </n-form>
-        <!-- Pass the function directly to the @click event handler -->
         <n-button type="primary" block secondary strong @click="login">
           Connexion
         </n-button>
@@ -37,7 +36,6 @@
             <n-input type="password" v-model:value="confirmPassword" />
           </n-form-item-row>
         </n-form>
-        <!-- Pass the function directly to the @click event handler -->
         <n-button type="primary" block secondary strong @click="inscription">
           Inscription
         </n-button>
@@ -68,6 +66,9 @@ const inscription = async () => {
       password: signupPassword.value,
     });
     console.log('Inscription réussie', response.data);
+    email.value = '';
+    signupPassword.value = '';
+    confirmPassword.value = '';
     window.location.reload();
   } catch (error) {
     console.error('Erreur lors de l\'inscription:', error);
@@ -83,6 +84,9 @@ const login = async () => {
     console.log('Connexion réussie', response.data);
     localStorage.token = response.data.token;
     localStorage.id = response.data.user.id;
+    email.value = '';
+    password.value = '';
+    window.location.href = '/deck-builder';
   } catch (error) {
     console.error('Erreur lors de la connexion', error);
   }
