@@ -1,37 +1,35 @@
 <template>
-  <n-card v-for="pokemonItem in pokemon" :key="pokemonItem.name" title="Card with Cover">
-    <template #cover>
-      <img :src="pokemonItem.imageUrl" />
-    </template>
-    <div>
+  <div>
+    <n-card v-for="pokemonItem in pokemon" :key="pokemonItem.name">
+      <template #cover>
+        <img :src="pokemonItem.imageUrl" />
+      </template>
       <h3>{{ pokemonItem.name }}</h3>
-      <p>Height: {{ pokemonItem.height }}</p>
-      <p>Weight: {{ pokemonItem.weight }}</p>
-      <p>Type : {{ pokemonItem.type.name }}</p>
-      <p>Attaque : {{ pokemonItem.attack.name }}</p>
-    </div>
-  </n-card>
+      <div class="info">
+        <span class="pv">PV {{ pokemonItem.lifePoints }}</span>
+        <n-tag class="type">{{ pokemonItem.type.name }}</n-tag>
+      </div>
+      <h4>Taille: {{ pokemonItem.height }} | Poids: {{ pokemonItem.weight }}</h4>
+      <n-tag class="attaque"> {{ pokemonItem.attack.name }}  {{ pokemonItem.attack.damages}}</n-tag>
+    </n-card>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-// Define a ref to store the fetched Pokémon data (should be an array)
 const pokemon = ref([]);
 
-// Function to fetch Pokémon data
 const getPokemon = async () => {
   try {
     const response = await axios.get('https://pokemon-api-seyrinian-production.up.railway.app/pokemon-cards');
-    // Update the pokemon ref with the response data (should be an array of Pokémon)
     pokemon.value = response.data;
   } catch (error) {
     console.error('Erreur lors du chargement des pokemons :', error);
   }
 };
 
-// Fetch the Pokémon data when the component is mounted
 onMounted(() => {
   getPokemon();
 });
@@ -40,5 +38,30 @@ onMounted(() => {
 <style scoped>
 .n-card {
   max-width: 200px;
+}
+div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+h4 {
+  font-size: 10px;
+  text-align: center;
+}
+
+.attaque {
+  font-size: 15px;
+}
+
+.pv {
+  color: red;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 </style>
