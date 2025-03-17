@@ -82,7 +82,7 @@ const login = async () => {
     });
     console.log('Connexion réussie', response.data);
     localStorage.token = response.data.token;
-    window.location.href='/deck-builder'
+    localStorage.id = response.data.user.id;
   } catch (error) {
     console.error('Erreur lors de la connexion', error);
   }
