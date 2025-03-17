@@ -81,7 +81,8 @@ const login = async () => {
       password: password.value,
     });
     console.log('Connexion réussie', response.data);
-    window.location.href("./DeckBuilder.page.vue");
+    localStorage.token = response.data.token;
+    window.location.href='/deck-builder'
   } catch (error) {
     console.error('Erreur lors de la connexion', error);
   }
