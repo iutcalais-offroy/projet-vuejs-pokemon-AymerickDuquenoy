@@ -8,7 +8,7 @@
       pane-wrapper-style="margin: 0 -4px"
       pane-style="padding-left: 4px; padding-right: 4px; box-sizing: border-box;"
     >
-      <!-- Sign-in Tab -->
+
       <n-tab-pane name="signin" tab="Connexion">
         <n-form>
           <n-form-item-row label="Email">
@@ -23,7 +23,6 @@
         </n-button>
       </n-tab-pane>
 
-      <!-- Sign-up Tab -->
       <n-tab-pane name="signup" tab="Inscription">
         <n-form>
           <n-form-item-row label="Email">
@@ -48,7 +47,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-// Declare reactive variables
+
 const email = ref('');
 const password = ref('');
 const signupPassword = ref('');

@@ -1,13 +1,19 @@
 <template>
+  <input 
+    type="text" 
+    v-model="searchQuery" 
+    placeholder="Rechercher un Pokémon par nom"
+    class="search-input"
+  />
+  
   <div>
-    <n-card v-for="pokemonItem in pokemon" :key="pokemonItem.name">
+    <n-card v-for="pokemonItem in filteredPokemon" :key="pokemonItem.name">
       <template #cover>
-        <img :src="pokemonItem.imageUrl" />
+        <img :src="pokemonItem.imageUrl" alt="Image de Pokémon" />
       </template>
       <h3>{{ pokemonItem.name }}</h3>
       <div class="info">
         <span class="pv">PV {{ pokemonItem.lifePoints }}</span>
-        <!-- Application de la couleur dynamiquement avec :style -->
         <n-tag 
           class="type" 
           :style="{ backgroundColor: getTypeColor(pokemonItem.type.name) }"
@@ -16,18 +22,21 @@
         </n-tag>
       </div>
       <h4>Taille: {{ pokemonItem.height }} | Poids: {{ pokemonItem.weight }}</h4>
-      <n-tag class="attaque"> {{ pokemonItem.attack.name }}  {{ pokemonItem.attack.damages}}</n-tag>
+      <n-tag class="attaque">
+        {{ pokemonItem.attack.name }} {{ pokemonItem.attack.damages }}
+      </n-tag>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 const pokemon = ref([]);
+const searchQuery = ref('');
 
-// Objet de mapping entre les types et leurs couleurs
+// Objet de mapping des couleurs en fonction des types
 const typeColors = {
   fire: '#F08030',
   water: '#6890F0',
@@ -48,62 +57,82 @@ const typeColors = {
   ground: '#E0C068',
   flying: '#A890F0',
   unknown: '#6D6D6D',
-  default: '#A0A0A0', // Couleur par défaut si le type n'est pas trouvé
+  default: '#A0A0A0',
 };
 
-// Fonction pour récupérer la couleur en fonction du type (normalise en minuscule)
+// Fonction pour récupérer la couleur du type
 const getTypeColor = (type) => {
-  // Convertir le type en minuscule pour correspondre aux clés de l'objet typeColors
-  const normalizedType = type.toLowerCase();
-  return typeColors[normalizedType] || typeColors.default;
+  return typeColors[type.toLowerCase()] || typeColors.default;
 };
 
+// Récupération des données Pokémon
 const getPokemon = async () => {
   try {
     const response = await axios.get('https://pokemon-api-seyrinian-production.up.railway.app/pokemon-cards');
     pokemon.value = response.data;
   } catch (error) {
-    console.error('Erreur lors du chargement des pokemons :', error);
+    console.error('Erreur lors du chargement des pokémons :', error);
   }
 };
 
+// Filtrage des Pokémon en fonction de la recherche
+const filteredPokemon = computed(() => {
+  if (!searchQuery.value.trim()) return pokemon.value;
+  return pokemon.value.filter(pokemonItem =>
+    pokemonItem.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+// Charger les Pokémon au montage du composant
 onMounted(() => {
   getPokemon();
 });
 </script>
 
 <style scoped>
+.search-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  display: block;
+}
+
 .n-card {
   max-width: 200px;
-  border: 1px solid #ddd; 
-  border-radius: 10px; 
-  overflow: hidden; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  transition: transform 0.3s ease-in-out; 
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  background: white;
 }
 
 .n-card:hover {
-  transform: scale(1.05); 
+  transform: scale(1.05);
 }
 
 .n-card img {
-  width: 100%; 
+  width: 100%;
   height: 180px;
-  object-fit: cover; 
+  object-fit: cover;
 }
 
 h3 {
   font-size: 18px;
   text-align: center;
   font-weight: bold;
-  color: #333; 
+  color: #333;
   margin: 10px 0;
 }
 
 h4 {
   font-size: 12px;
   text-align: center;
-  color: #666; 
+  color: #666;
   margin-top: 5px;
 }
 
@@ -125,10 +154,7 @@ h4 {
   padding: 5px 10px;
   color: white;
   font-weight: bold;
-  text-transform: capitalize; 
-}
-
-.type {
+  text-transform: capitalize;
   border-radius: 12px;
 }
 
@@ -149,12 +175,6 @@ div {
   margin-top: 20px;
 }
 
-
-.n-card:hover .info {
-  color: #000;
-  font-weight: bold;
-}
-
 .n-card {
   opacity: 0;
   animation: fadeIn 0.5s forwards;
@@ -166,4 +186,3 @@ div {
   }
 }
 </style>
-
