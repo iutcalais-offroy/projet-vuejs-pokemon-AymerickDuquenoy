@@ -2,7 +2,7 @@
   <input 
     type="text" 
     v-model="searchQuery" 
-    placeholder="Rechercher un Pokémon par nom"
+    placeholder="Rechercher un pokémon par nom"
     class="search-input"
   />
   
